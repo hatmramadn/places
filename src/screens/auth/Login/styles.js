@@ -11,6 +11,7 @@ export default StyleSheet.create({
   formGroup: {
     backgroundColor: colors.white,
     ...shadows.extraLightShadowGrey,
+    elevation: 5,
     padding: 20,
     borderRadius: 20,
   },

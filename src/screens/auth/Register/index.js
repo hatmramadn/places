@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, KeyboardAvoidingView, Platform} from 'react-native';
 import {Formik, Field} from 'formik';
 import * as yup from 'yup';
 
@@ -10,6 +10,7 @@ import axios from 'axios';
 import {displayToast} from '../../../utils';
 import {routeNames} from '../../../constants';
 
+// Form Validation Scheme
 const registerValidationSchema = yup.object().shape({
   email: yup
     .string()
@@ -24,61 +25,69 @@ const registerValidationSchema = yup.object().shape({
 const Login = ({navigation}) => {
   const [loading, setLoading] = useState(false);
 
+  // Submit Handler
   const onSubmit = async values => {
     setLoading(true);
+
+    // Calling node back-end (register end-point)
     axios
       .post('/users/register', values)
       .then(res => {
         setLoading(false);
+        // if success Displaying a toast and navigating to home
         displayToast('success', 'Loggedin Successfully');
-
+        navigation.replace(routeNames.home);
         console.log({...res});
       })
       .catch(err => {
         setLoading(false);
+        // if error Displaying a toast with the error message
         displayToast('error', err.response.data.message);
         console.log({...err});
       });
   };
   return (
     <View style={styles.container}>
-      <View style={styles.formGroup}>
-        <Text style={styles.heading}>Register</Text>
-        <Formik
-          validationSchema={registerValidationSchema}
-          initialValues={{
-            email: '',
-            password: '',
-          }}
-          onSubmit={onSubmit}>
-          {({handleSubmit, isValid}) => (
-            <>
-              <Field
-                component={CustomInput}
-                name="email"
-                placeholder="Enter Email Address"
-                keyboardType="email-address"
-              />
-              <Field
-                component={CustomInput}
-                name="password"
-                placeholder="Enter Password"
-                secureTextEntry
-              />
-              <PrimaryButton
-                loading={loading}
-                text="Login"
-                disabled={!isValid}
-                onPress={handleSubmit}
-              />
-            </>
-          )}
-        </Formik>
-        <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-          <Text style={{marginHorizontal: 5}}>Have account?</Text>
-          <LinkButton text="Login" onPress={() => navigation.goBack()} />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <View style={styles.formGroup}>
+          <Text style={styles.heading}>Register</Text>
+          <Formik
+            validationSchema={registerValidationSchema}
+            initialValues={{
+              email: '',
+              password: '',
+            }}
+            onSubmit={onSubmit}>
+            {({handleSubmit, isValid}) => (
+              <>
+                <Field
+                  component={CustomInput}
+                  name="email"
+                  placeholder="Enter Email Address"
+                  keyboardType="email-address"
+                />
+                <Field
+                  component={CustomInput}
+                  name="password"
+                  placeholder="Enter Password"
+                  secureTextEntry
+                />
+                <PrimaryButton
+                  loading={loading}
+                  text="Login"
+                  disabled={!isValid}
+                  onPress={handleSubmit}
+                />
+              </>
+            )}
+          </Formik>
+          <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+            <Text style={{marginHorizontal: 5}}>Have account?</Text>
+            <LinkButton text="Login" onPress={() => navigation.goBack()} />
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };

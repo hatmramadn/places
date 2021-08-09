@@ -1,7 +1,9 @@
 import React from 'react';
 import {Text, TextInput, StyleSheet} from 'react-native';
+
 import {colors} from '../constants';
 import {capitalizeFirstLetter} from '../utils';
+
 const CustomInput = props => {
   const {
     field: {name, onBlur, onChange, value},
@@ -13,7 +15,9 @@ const CustomInput = props => {
 
   return (
     <>
-      <Text style={styles.lable}>{capitalizeFirstLetter(name)}</Text>
+      <Text style={styles.lable}>
+        {inputProps.lable ? inputProps.lable : capitalizeFirstLetter(name)}
+      </Text>
       <TextInput
         style={[styles.textInput, hasError && styles.errorInput]}
         value={value}
