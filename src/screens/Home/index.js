@@ -16,6 +16,7 @@ import axios from 'axios';
 import {displayToast} from '../../utils';
 import {images, routeNames} from '../../constants';
 
+// Initial region to start the map with
 const INITIAL_REGION = {
   latitude: 30.033333,
   longitude: 31.233334,
@@ -28,6 +29,8 @@ const FORM_INITIAL_VALUE = {
   placeName: '',
   placePhone: '',
 };
+
+// Form Validation
 
 const placeValidationSchema = yup.object().shape({
   placeType: yup.string().required('Place Type is Required'),
@@ -64,7 +67,11 @@ const Home = ({navigation}) => {
         console.log(res.data);
         setPlaces(res.data);
       })
-      .catch(err => console.log({...err}));
+      .catch(err => {
+        console.log({...err});
+        // Displaying error if something went wrong
+        displayToast('err', err.message);
+      });
   }, [isModalVisible]);
 
   //   Submit new place to back-end

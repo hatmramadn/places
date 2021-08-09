@@ -3,4 +3,5 @@ export default {
   restaurantMarker: require('../assets/restaurant-marker.png'),
   parkMarker: require('../assets/park-marker.png'),
   marker: require('../assets/marker.png'),
+  back: require('../assets/arrow.png'),
 };
