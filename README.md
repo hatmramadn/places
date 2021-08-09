@@ -1,3 +1,33 @@
+# How to run the app
+
+1. Clone the project
+
+```
+git clone https://github.com/hatmramadn/places.git
+```
+
+2. Install dependencies
+
+```
+cd places
+
+# Using yarn
+yarn install
+
+# Using npm
+npm install
+```
+3. Run the app
+
+```
+# Using yarn
+yarn ios
+yarn android
+
+# Using npm
+npm run ios
+npm run android
+```
 # Application plan and code structure
 Application is following react native boiler plate structure. All of the code will be placed in a  `src`  folder and all of the dependencies will be placed in  `package.json`  file.
 
